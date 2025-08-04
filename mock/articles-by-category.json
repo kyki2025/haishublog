@@ -1,0 +1,32 @@
+{
+  "_delay": 200,
+  "articles": [
+    {
+      "id": "1",
+      "title": "中国茶道的精髓与现代传承",
+      "excerpt": "茶道不仅是一种饮茶方式，更是一种生活态度。本文探讨了中国茶道的核心精神以及如何在现代生活中传承这一文化瑰宝。",
+      "author": "海树",
+      "date": "2023-05-15",
+      "category": "茶文化",
+      "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "5",
+      "title": "普洱茶的陈化之道",
+      "excerpt": "普洱茶是中国特有的一种后发酵茶，其独特之处在于越陈越香。本文详细介绍了普洱茶的陈化过程、方法以及如何品鉴不同年份的普洱茶。",
+      "author": "海树",
+      "date": "2023-04-18",
+      "category": "茶文化",
+      "image": "https://images.unsplash.com/photo-1563911892437-1feda0179e1b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "6",
+      "title": "茶席设计的艺术",
+      "excerpt": "一场成功的茶席不仅仅是泡茶技艺的展示，更是一种美学和文化的表达。本文分享了茶席设计的基本原则和创意灵感。",
+      "author": "海树",
+      "date": "2023-03-22",
+      "category": "茶文化",
+      "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80"
+    }
+  ]
+}
