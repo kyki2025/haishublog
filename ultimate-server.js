@@ -42,7 +42,7 @@ const generateHtml = () => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>海树的生活札记</title>
+  <title>海叔的Blog</title>
   <meta name="description" content="分享茶文化、摄影、思考与日语学习的点点滴滴">
   <link rel="stylesheet" href="main.css?v=${Date.now()}">
   ${config.hotReload ? '<script src="/hot-reload.js"></script>' : ''}

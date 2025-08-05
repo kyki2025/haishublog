@@ -7,17 +7,12 @@ import { Article, User, Comment, Notification } from './store'
 export const mockUsers: User[] = [
   {
     id: '1',
-    name: '海树',
+    name: '海叔',
     email: 'haishublog@example.com',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     bio: '热爱生活的记录者，喜欢茶文化、摄影、思考人生，正在学习日语。用文字和镜头记录生活的美好瞬间。',
     role: 'admin',
-    createdAt: '2024-01-15T10:00:00Z',
-    isVerified: true,
-    socialLinks: {
-      instagram: 'https://instagram.com/haishublog',
-      twitter: 'https://twitter.com/haishublog'
-    }
+    createdAt: '2024-01-15T10:00:00Z'
   },
   {
     id: '2',
@@ -25,9 +20,8 @@ export const mockUsers: User[] = [
     email: 'teafriend@example.com',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     bio: '茶文化爱好者，经常分享品茶心得。',
-    role: 'reader',
-    createdAt: '2024-02-01T10:00:00Z',
-    isVerified: false
+    role: 'user',
+    createdAt: '2024-02-01T10:00:00Z'
   },
   {
     id: '3',
@@ -35,12 +29,8 @@ export const mockUsers: User[] = [
     email: 'photographer@example.com',
     avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     bio: '专业摄影师，喜欢捕捉生活中的美好瞬间。',
-    role: 'reader',
-    createdAt: '2024-03-01T10:00:00Z',
-    isVerified: true,
-    socialLinks: {
-      instagram: 'https://instagram.com/photographer_li'
-    }
+    role: 'user',
+    createdAt: '2024-03-01T10:00:00Z'
   },
   {
     id: '4',
@@ -48,9 +38,8 @@ export const mockUsers: User[] = [
     email: 'japanese@example.com',
     avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
     bio: '正在努力学习日语的同路人，一起加油！',
-    role: 'reader',
-    createdAt: '2024-01-20T10:00:00Z',
-    isVerified: false
+    role: 'user',
+    createdAt: '2024-01-20T10:00:00Z'
   }
 ]
 
@@ -94,16 +83,15 @@ export const mockArticles: Article[] = [
 春天的茶，春天的心情，希望每个人都能在忙碌的生活中找到属于自己的那杯茶。`,
     excerpt: '在春日的午后，品一杯明前龙井，感受茶香带来的宁静时光，体验慢生活的美好。',
     coverImage: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=800&h=400&fit=crop',
-    authorId: '1',
+    author: mockUsers[0],
     tags: ['茶文化', '龙井茶', '春天', '慢生活', '品茶心得'],
     category: '茶文化',
-    publishedAt: '2024-07-20T14:30:00Z',
+    createdAt: '2024-07-20T14:30:00Z',
     updatedAt: '2024-07-20T14:30:00Z',
     likes: 45,
     views: 320,
     featured: true,
-    status: 'published',
-    readTime: 8
+    status: 'published'
   },
   {
     id: '2',
@@ -152,16 +140,15 @@ export const mockArticles: Article[] = [
 摄影教会我用不同的角度看世界，每一次按下快门，都是对美好生活的记录和感恩。`,
     excerpt: '用镜头记录城市黄昏的美好瞬间，分享街头摄影的技巧和感悟，发现生活中的诗意时光。',
     coverImage: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop',
-    authorId: '1',
+    author: mockUsers[0],
     tags: ['摄影', '街拍', '黄昏', '城市', '光影'],
     category: '摄影',
-    publishedAt: '2024-07-18T09:15:00Z',
+    createdAt: '2024-07-18T09:15:00Z',
     updatedAt: '2024-07-18T09:15:00Z',
     likes: 32,
     views: 275,
     featured: false,
-    status: 'published',
-    readTime: 6
+    status: 'published'
   },
   {
     id: '3',
@@ -225,16 +212,15 @@ export const mockArticles: Article[] = [
 慢生活不是逃避现实，而是更好地面对现实。在这个快速变化的世界里，保持内心的平静和清醒，或许是我们最需要学会的技能。`,
     excerpt: '在快节奏的现代生活中，如何找到内心的平静？分享关于慢生活的思考和实践心得。',
     coverImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop',
-    authorId: '1',
+    author: mockUsers[0],
     tags: ['慢生活', '思考', '心理健康', '生活哲学', '内心平静'],
     category: '思考',
-    publishedAt: '2024-07-15T16:45:00Z',
+    createdAt: '2024-07-15T16:45:00Z',
     updatedAt: '2024-07-15T16:45:00Z',
     likes: 28,
     views: 198,
     featured: true,
-    status: 'published',
-    readTime: 7
+    status: 'published'
   },
   {
     id: '4',
@@ -328,16 +314,15 @@ export const mockArticles: Article[] = [
 学习日语是一个长期的过程，需要耐心和坚持。每一个小小的进步都值得庆祝，がんばって！（加油！）`,
     excerpt: '分享日语学习半年来的心得体会，从五十音图到日常会话的学习历程和实用技巧。',
     coverImage: 'https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=400&fit=crop',
-    authorId: '1',
+    author: mockUsers[0],
     tags: ['日语学习', '语言学习', '五十音', '日本文化', '学习心得'],
     category: '日语',
-    publishedAt: '2024-07-12T11:20:00Z',
+    createdAt: '2024-07-12T11:20:00Z',
     updatedAt: '2024-07-12T11:20:00Z',
     likes: 19,
     views: 142,
     featured: false,
-    status: 'published',
-    readTime: 5
+    status: 'published'
   },
   {
     id: '5',
@@ -437,16 +422,15 @@ export const mockArticles: Article[] = [
 一杯好的普洱茶，承载着时间的重量和岁月的智慧。在这个秋日的午后，让我们一起品味这份来自时间的馈赠。`,
     excerpt: '在秋日午后品味陈年普洱茶，感受时间沉淀的醇厚韵味，分享普洱茶的品饮心得和收藏建议。',
     coverImage: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=800&h=400&fit=crop',
-    authorId: '1',
+    author: mockUsers[0],
     tags: ['普洱茶', '茶文化', '秋天', '陈年茶', '品茶心得'],
     category: '茶文化',
-    publishedAt: '2024-07-10T14:00:00Z',
+    createdAt: '2024-07-10T14:00:00Z',
     updatedAt: '2024-07-10T14:00:00Z',
     likes: 24,
     views: 189,
     featured: false,
-    status: 'published',
-    readTime: 9
+    status: 'published'
   },
   {
     id: '6',
@@ -552,16 +536,15 @@ export const mockArticles: Article[] = [
 下次下雨的时候，不妨拿起相机，去发现雨天独有的美丽吧！`,
     excerpt: '探索雨天摄影的独特魅力，分享雨中拍摄的技巧和心得，发现水滴中的诗意瞬间。',
     coverImage: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&h=400&fit=crop',
-    authorId: '1',
+    author: mockUsers[0],
     tags: ['摄影', '雨天', '水滴', '微距', '自然'],
     category: '摄影',
-    publishedAt: '2024-07-05T10:30:00Z',
+    createdAt: '2024-07-05T10:30:00Z',
     updatedAt: '2024-07-05T10:30:00Z',
     likes: 36,
     views: 267,
     featured: true,
-    status: 'published',
-    readTime: 10
+    status: 'published'
   }
 ]
 
@@ -569,7 +552,7 @@ export const mockComments: Comment[] = [
   {
     id: '1',
     articleId: '1',
-    userId: '2',
+    author: mockUsers[1],
     content: '写得真好！我也很喜欢龙井茶，特别是明前龙井的那种清香。你提到的冲泡技巧很实用，我要试试看。',
     createdAt: '2024-07-20T15:30:00Z',
     likes: 5
@@ -577,7 +560,7 @@ export const mockComments: Comment[] = [
   {
     id: '2',
     articleId: '1',
-    userId: '3',
+    author: mockUsers[2],
     content: '看了你的文章，突然也想去买点好茶来品尝。慢生活真的很重要，现在的生活节奏太快了。',
     createdAt: '2024-07-21T09:15:00Z',
     likes: 8
@@ -585,7 +568,7 @@ export const mockComments: Comment[] = [
   {
     id: '3',
     articleId: '2',
-    userId: '4',
+    author: mockUsers[3],
     content: '你的街拍作品很棒！黄昏时分的光线确实很美，我也要尝试在这个时间段拍摄。期待看到更多作品！',
     createdAt: '2024-07-18T14:22:00Z',
     likes: 3
@@ -593,7 +576,7 @@ export const mockComments: Comment[] = [
   {
     id: '4',
     articleId: '3',
-    userId: '2',
+    author: mockUsers[1],
     content: '深有同感！现代生活确实太快了，我们都需要学会慢下来。你提到的数字断食我也在尝试，效果不错。',
     createdAt: '2024-07-16T08:45:00Z',
     likes: 12
@@ -601,7 +584,7 @@ export const mockComments: Comment[] = [
   {
     id: '5',
     articleId: '4',
-    userId: '3',
+    author: mockUsers[2],
     content: '作为同样在学日语的人，你的经验分享很有帮助！五十音图确实是基础，我当时也花了很长时间才记住。がんばって！',
     createdAt: '2024-07-13T16:30:00Z',
     likes: 6
@@ -609,7 +592,7 @@ export const mockComments: Comment[] = [
   {
     id: '6',
     articleId: '5',
-    userId: '2',
+    author: mockUsers[1],
     content: '普洱茶真的是越陈越香！我也收藏了几饼老茶，你的品茶心得让我受益匪浅。秋天确实是品普洱的好时节。',
     createdAt: '2024-07-11T10:20:00Z',
     likes: 4
@@ -617,7 +600,7 @@ export const mockComments: Comment[] = [
   {
     id: '7',
     articleId: '6',
-    userId: '4',
+    author: mockUsers[3],
     content: '雨天摄影的想法很棒！我以前总觉得雨天不适合拍照，看了你的文章才知道雨天有这么多拍摄可能性。',
     createdAt: '2024-07-06T14:15:00Z',
     likes: 7
@@ -631,10 +614,8 @@ export const mockNotifications: Notification[] = [
     type: 'comment',
     title: '新评论',
     message: '茶友小明评论了你的文章《春日品茶记：一杯龙井的温柔时光》',
-    isRead: false,
+    read: false,
     createdAt: '2024-07-20T15:30:00Z',
-    actionUrl: '/article/spring-tea-longjing',
-    sourceUserId: '2'
   },
   {
     id: '2',
@@ -642,9 +623,8 @@ export const mockNotifications: Notification[] = [
     type: 'like',
     title: '文章获赞',
     message: '你的文章《镜头下的城市黄昏：街头摄影的魅力》收到了5个新赞',
-    isRead: false,
+    read: false,
     createdAt: '2024-07-19T12:20:00Z',
-    actionUrl: '/article/city-sunset-photography'
   },
   {
     id: '3',
@@ -652,10 +632,8 @@ export const mockNotifications: Notification[] = [
     type: 'comment',
     title: '新评论',
     message: '摄影师小李评论了你的文章《关于慢生活的思考：在快节奏中寻找内心的平静》',
-    isRead: true,
+    read: true,
     createdAt: '2024-07-16T08:45:00Z',
-    actionUrl: '/article/slow-living-thoughts',
-    sourceUserId: '3'
   },
   {
     id: '4',
@@ -663,9 +641,7 @@ export const mockNotifications: Notification[] = [
     type: 'comment',
     title: '新评论',
     message: '日语学习者评论了你的文章《日语学习笔记：从五十音到日常会话的心路历程》',
-    isRead: true,
+    read: true,
     createdAt: '2024-07-13T16:30:00Z',
-    actionUrl: '/article/japanese-learning-journey',
-    sourceUserId: '4'
   }
 ]

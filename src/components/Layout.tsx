@@ -70,7 +70,7 @@ export default function Layout({ children }: LayoutProps) {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
               <BookOpen className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold text-primary">海树的生活札记</span>
+              <span className="text-2xl font-bold text-primary">海叔的Blog</span>
             </Link>
 
             {/* Navigation */}
@@ -216,7 +216,7 @@ export default function Layout({ children }: LayoutProps) {
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <BookOpen className="h-6 w-6 text-primary" />
-                <span className="text-lg font-semibold">海树的生活札记</span>
+                <span className="text-lg font-semibold">海叔的Blog</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 分享茶文化、摄影、思考与日语学习的点点滴滴，记录生活中的美好瞬间。
@@ -268,7 +268,7 @@ export default function Layout({ children }: LayoutProps) {
           
           <div className="border-t mt-8 pt-8 text-center">
             <p className="text-sm text-muted-foreground">
-              © 2024 海树的生活札记. 保留所有权利. 用 ❤️ 记录生活的美好时光.
+              © 2024 海叔的Blog. 保留所有权利. 用 ❤️ 记录生活的美好时光.
             </p>
           </div>
         </div>

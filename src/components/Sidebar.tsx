@@ -274,10 +274,10 @@ export default function Sidebar({ selectedCategory, onCategoryChange }: SidebarP
         <CardContent>
           <div className="text-center">
             <Avatar className="h-16 w-16 mx-auto mb-4">
-              <AvatarImage src="/api/placeholder/64/64" alt="海树" />
-              <AvatarFallback>海树</AvatarFallback>
+              <AvatarImage src="/api/placeholder/64/64" alt="海叔" />
+              <AvatarFallback>海叔</AvatarFallback>
             </Avatar>
-            <h3 className="font-semibold mb-2">海树</h3>
+            <h3 className="font-semibold mb-2">海叔</h3>
             <p className="text-sm text-muted-foreground mb-4">
               热爱茶文化、摄影和日语学习的生活记录者。在这里分享我的思考与感悟。
             </p>

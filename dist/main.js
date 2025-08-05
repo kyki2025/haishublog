@@ -38469,17 +38469,12 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   var mockUsers = [
     {
       id: "1",
-      name: "\u6D77\u6811",
+      name: "\u6D77\u53D4",
       email: "haishublog@example.com",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
       bio: "\u70ED\u7231\u751F\u6D3B\u7684\u8BB0\u5F55\u8005\uFF0C\u559C\u6B22\u8336\u6587\u5316\u3001\u6444\u5F71\u3001\u601D\u8003\u4EBA\u751F\uFF0C\u6B63\u5728\u5B66\u4E60\u65E5\u8BED\u3002\u7528\u6587\u5B57\u548C\u955C\u5934\u8BB0\u5F55\u751F\u6D3B\u7684\u7F8E\u597D\u77AC\u95F4\u3002",
       role: "admin",
-      createdAt: "2024-01-15T10:00:00Z",
-      isVerified: true,
-      socialLinks: {
-        instagram: "https://instagram.com/haishublog",
-        twitter: "https://twitter.com/haishublog"
-      }
+      createdAt: "2024-01-15T10:00:00Z"
     },
     {
       id: "2",
@@ -38487,9 +38482,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       email: "teafriend@example.com",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
       bio: "\u8336\u6587\u5316\u7231\u597D\u8005\uFF0C\u7ECF\u5E38\u5206\u4EAB\u54C1\u8336\u5FC3\u5F97\u3002",
-      role: "reader",
-      createdAt: "2024-02-01T10:00:00Z",
-      isVerified: false
+      role: "user",
+      createdAt: "2024-02-01T10:00:00Z"
     },
     {
       id: "3",
@@ -38497,12 +38491,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       email: "photographer@example.com",
       avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
       bio: "\u4E13\u4E1A\u6444\u5F71\u5E08\uFF0C\u559C\u6B22\u6355\u6349\u751F\u6D3B\u4E2D\u7684\u7F8E\u597D\u77AC\u95F4\u3002",
-      role: "reader",
-      createdAt: "2024-03-01T10:00:00Z",
-      isVerified: true,
-      socialLinks: {
-        instagram: "https://instagram.com/photographer_li"
-      }
+      role: "user",
+      createdAt: "2024-03-01T10:00:00Z"
     },
     {
       id: "4",
@@ -38510,9 +38500,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       email: "japanese@example.com",
       avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
       bio: "\u6B63\u5728\u52AA\u529B\u5B66\u4E60\u65E5\u8BED\u7684\u540C\u8DEF\u4EBA\uFF0C\u4E00\u8D77\u52A0\u6CB9\uFF01",
-      role: "reader",
-      createdAt: "2024-01-20T10:00:00Z",
-      isVerified: false
+      role: "user",
+      createdAt: "2024-01-20T10:00:00Z"
     }
   ];
   var mockArticles = [
@@ -38555,16 +38544,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 \u6625\u5929\u7684\u8336\uFF0C\u6625\u5929\u7684\u5FC3\u60C5\uFF0C\u5E0C\u671B\u6BCF\u4E2A\u4EBA\u90FD\u80FD\u5728\u5FD9\u788C\u7684\u751F\u6D3B\u4E2D\u627E\u5230\u5C5E\u4E8E\u81EA\u5DF1\u7684\u90A3\u676F\u8336\u3002`,
       excerpt: "\u5728\u6625\u65E5\u7684\u5348\u540E\uFF0C\u54C1\u4E00\u676F\u660E\u524D\u9F99\u4E95\uFF0C\u611F\u53D7\u8336\u9999\u5E26\u6765\u7684\u5B81\u9759\u65F6\u5149\uFF0C\u4F53\u9A8C\u6162\u751F\u6D3B\u7684\u7F8E\u597D\u3002",
       coverImage: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=800&h=400&fit=crop",
-      authorId: "1",
+      author: mockUsers[0],
       tags: ["\u8336\u6587\u5316", "\u9F99\u4E95\u8336", "\u6625\u5929", "\u6162\u751F\u6D3B", "\u54C1\u8336\u5FC3\u5F97"],
       category: "\u8336\u6587\u5316",
-      publishedAt: "2024-07-20T14:30:00Z",
+      createdAt: "2024-07-20T14:30:00Z",
       updatedAt: "2024-07-20T14:30:00Z",
       likes: 45,
       views: 320,
       featured: true,
-      status: "published",
-      readTime: 8
+      status: "published"
     },
     {
       id: "2",
@@ -38613,16 +38601,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 \u6444\u5F71\u6559\u4F1A\u6211\u7528\u4E0D\u540C\u7684\u89D2\u5EA6\u770B\u4E16\u754C\uFF0C\u6BCF\u4E00\u6B21\u6309\u4E0B\u5FEB\u95E8\uFF0C\u90FD\u662F\u5BF9\u7F8E\u597D\u751F\u6D3B\u7684\u8BB0\u5F55\u548C\u611F\u6069\u3002`,
       excerpt: "\u7528\u955C\u5934\u8BB0\u5F55\u57CE\u5E02\u9EC4\u660F\u7684\u7F8E\u597D\u77AC\u95F4\uFF0C\u5206\u4EAB\u8857\u5934\u6444\u5F71\u7684\u6280\u5DE7\u548C\u611F\u609F\uFF0C\u53D1\u73B0\u751F\u6D3B\u4E2D\u7684\u8BD7\u610F\u65F6\u5149\u3002",
       coverImage: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=400&fit=crop",
-      authorId: "1",
+      author: mockUsers[0],
       tags: ["\u6444\u5F71", "\u8857\u62CD", "\u9EC4\u660F", "\u57CE\u5E02", "\u5149\u5F71"],
       category: "\u6444\u5F71",
-      publishedAt: "2024-07-18T09:15:00Z",
+      createdAt: "2024-07-18T09:15:00Z",
       updatedAt: "2024-07-18T09:15:00Z",
       likes: 32,
       views: 275,
       featured: false,
-      status: "published",
-      readTime: 6
+      status: "published"
     },
     {
       id: "3",
@@ -38686,16 +38673,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 \u6162\u751F\u6D3B\u4E0D\u662F\u9003\u907F\u73B0\u5B9E\uFF0C\u800C\u662F\u66F4\u597D\u5730\u9762\u5BF9\u73B0\u5B9E\u3002\u5728\u8FD9\u4E2A\u5FEB\u901F\u53D8\u5316\u7684\u4E16\u754C\u91CC\uFF0C\u4FDD\u6301\u5185\u5FC3\u7684\u5E73\u9759\u548C\u6E05\u9192\uFF0C\u6216\u8BB8\u662F\u6211\u4EEC\u6700\u9700\u8981\u5B66\u4F1A\u7684\u6280\u80FD\u3002`,
       excerpt: "\u5728\u5FEB\u8282\u594F\u7684\u73B0\u4EE3\u751F\u6D3B\u4E2D\uFF0C\u5982\u4F55\u627E\u5230\u5185\u5FC3\u7684\u5E73\u9759\uFF1F\u5206\u4EAB\u5173\u4E8E\u6162\u751F\u6D3B\u7684\u601D\u8003\u548C\u5B9E\u8DF5\u5FC3\u5F97\u3002",
       coverImage: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop",
-      authorId: "1",
+      author: mockUsers[0],
       tags: ["\u6162\u751F\u6D3B", "\u601D\u8003", "\u5FC3\u7406\u5065\u5EB7", "\u751F\u6D3B\u54F2\u5B66", "\u5185\u5FC3\u5E73\u9759"],
       category: "\u601D\u8003",
-      publishedAt: "2024-07-15T16:45:00Z",
+      createdAt: "2024-07-15T16:45:00Z",
       updatedAt: "2024-07-15T16:45:00Z",
       likes: 28,
       views: 198,
       featured: true,
-      status: "published",
-      readTime: 7
+      status: "published"
     },
     {
       id: "4",
@@ -38789,16 +38775,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 \u5B66\u4E60\u65E5\u8BED\u662F\u4E00\u4E2A\u957F\u671F\u7684\u8FC7\u7A0B\uFF0C\u9700\u8981\u8010\u5FC3\u548C\u575A\u6301\u3002\u6BCF\u4E00\u4E2A\u5C0F\u5C0F\u7684\u8FDB\u6B65\u90FD\u503C\u5F97\u5E86\u795D\uFF0C\u304C\u3093\u3070\u3063\u3066\uFF01\uFF08\u52A0\u6CB9\uFF01\uFF09`,
       excerpt: "\u5206\u4EAB\u65E5\u8BED\u5B66\u4E60\u534A\u5E74\u6765\u7684\u5FC3\u5F97\u4F53\u4F1A\uFF0C\u4ECE\u4E94\u5341\u97F3\u56FE\u5230\u65E5\u5E38\u4F1A\u8BDD\u7684\u5B66\u4E60\u5386\u7A0B\u548C\u5B9E\u7528\u6280\u5DE7\u3002",
       coverImage: "https://images.unsplash.com/photo-1528164344705-47542687000d?w=800&h=400&fit=crop",
-      authorId: "1",
+      author: mockUsers[0],
       tags: ["\u65E5\u8BED\u5B66\u4E60", "\u8BED\u8A00\u5B66\u4E60", "\u4E94\u5341\u97F3", "\u65E5\u672C\u6587\u5316", "\u5B66\u4E60\u5FC3\u5F97"],
       category: "\u65E5\u8BED",
-      publishedAt: "2024-07-12T11:20:00Z",
+      createdAt: "2024-07-12T11:20:00Z",
       updatedAt: "2024-07-12T11:20:00Z",
       likes: 19,
       views: 142,
       featured: false,
-      status: "published",
-      readTime: 5
+      status: "published"
     },
     {
       id: "5",
@@ -38898,16 +38883,15 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 \u4E00\u676F\u597D\u7684\u666E\u6D31\u8336\uFF0C\u627F\u8F7D\u7740\u65F6\u95F4\u7684\u91CD\u91CF\u548C\u5C81\u6708\u7684\u667A\u6167\u3002\u5728\u8FD9\u4E2A\u79CB\u65E5\u7684\u5348\u540E\uFF0C\u8BA9\u6211\u4EEC\u4E00\u8D77\u54C1\u5473\u8FD9\u4EFD\u6765\u81EA\u65F6\u95F4\u7684\u9988\u8D60\u3002`,
       excerpt: "\u5728\u79CB\u65E5\u5348\u540E\u54C1\u5473\u9648\u5E74\u666E\u6D31\u8336\uFF0C\u611F\u53D7\u65F6\u95F4\u6C89\u6DC0\u7684\u9187\u539A\u97F5\u5473\uFF0C\u5206\u4EAB\u666E\u6D31\u8336\u7684\u54C1\u996E\u5FC3\u5F97\u548C\u6536\u85CF\u5EFA\u8BAE\u3002",
       coverImage: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=800&h=400&fit=crop",
-      authorId: "1",
+      author: mockUsers[0],
       tags: ["\u666E\u6D31\u8336", "\u8336\u6587\u5316", "\u79CB\u5929", "\u9648\u5E74\u8336", "\u54C1\u8336\u5FC3\u5F97"],
       category: "\u8336\u6587\u5316",
-      publishedAt: "2024-07-10T14:00:00Z",
+      createdAt: "2024-07-10T14:00:00Z",
       updatedAt: "2024-07-10T14:00:00Z",
       likes: 24,
       views: 189,
       featured: false,
-      status: "published",
-      readTime: 9
+      status: "published"
     },
     {
       id: "6",
@@ -39013,23 +38997,22 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
 \u4E0B\u6B21\u4E0B\u96E8\u7684\u65F6\u5019\uFF0C\u4E0D\u59A8\u62FF\u8D77\u76F8\u673A\uFF0C\u53BB\u53D1\u73B0\u96E8\u5929\u72EC\u6709\u7684\u7F8E\u4E3D\u5427\uFF01`,
       excerpt: "\u63A2\u7D22\u96E8\u5929\u6444\u5F71\u7684\u72EC\u7279\u9B45\u529B\uFF0C\u5206\u4EAB\u96E8\u4E2D\u62CD\u6444\u7684\u6280\u5DE7\u548C\u5FC3\u5F97\uFF0C\u53D1\u73B0\u6C34\u6EF4\u4E2D\u7684\u8BD7\u610F\u77AC\u95F4\u3002",
       coverImage: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&h=400&fit=crop",
-      authorId: "1",
+      author: mockUsers[0],
       tags: ["\u6444\u5F71", "\u96E8\u5929", "\u6C34\u6EF4", "\u5FAE\u8DDD", "\u81EA\u7136"],
       category: "\u6444\u5F71",
-      publishedAt: "2024-07-05T10:30:00Z",
+      createdAt: "2024-07-05T10:30:00Z",
       updatedAt: "2024-07-05T10:30:00Z",
       likes: 36,
       views: 267,
       featured: true,
-      status: "published",
-      readTime: 10
+      status: "published"
     }
   ];
   var mockComments = [
     {
       id: "1",
       articleId: "1",
-      userId: "2",
+      author: mockUsers[1],
       content: "\u5199\u5F97\u771F\u597D\uFF01\u6211\u4E5F\u5F88\u559C\u6B22\u9F99\u4E95\u8336\uFF0C\u7279\u522B\u662F\u660E\u524D\u9F99\u4E95\u7684\u90A3\u79CD\u6E05\u9999\u3002\u4F60\u63D0\u5230\u7684\u51B2\u6CE1\u6280\u5DE7\u5F88\u5B9E\u7528\uFF0C\u6211\u8981\u8BD5\u8BD5\u770B\u3002",
       createdAt: "2024-07-20T15:30:00Z",
       likes: 5
@@ -39037,7 +39020,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     {
       id: "2",
       articleId: "1",
-      userId: "3",
+      author: mockUsers[2],
       content: "\u770B\u4E86\u4F60\u7684\u6587\u7AE0\uFF0C\u7A81\u7136\u4E5F\u60F3\u53BB\u4E70\u70B9\u597D\u8336\u6765\u54C1\u5C1D\u3002\u6162\u751F\u6D3B\u771F\u7684\u5F88\u91CD\u8981\uFF0C\u73B0\u5728\u7684\u751F\u6D3B\u8282\u594F\u592A\u5FEB\u4E86\u3002",
       createdAt: "2024-07-21T09:15:00Z",
       likes: 8
@@ -39045,7 +39028,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     {
       id: "3",
       articleId: "2",
-      userId: "4",
+      author: mockUsers[3],
       content: "\u4F60\u7684\u8857\u62CD\u4F5C\u54C1\u5F88\u68D2\uFF01\u9EC4\u660F\u65F6\u5206\u7684\u5149\u7EBF\u786E\u5B9E\u5F88\u7F8E\uFF0C\u6211\u4E5F\u8981\u5C1D\u8BD5\u5728\u8FD9\u4E2A\u65F6\u95F4\u6BB5\u62CD\u6444\u3002\u671F\u5F85\u770B\u5230\u66F4\u591A\u4F5C\u54C1\uFF01",
       createdAt: "2024-07-18T14:22:00Z",
       likes: 3
@@ -39053,7 +39036,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     {
       id: "4",
       articleId: "3",
-      userId: "2",
+      author: mockUsers[1],
       content: "\u6DF1\u6709\u540C\u611F\uFF01\u73B0\u4EE3\u751F\u6D3B\u786E\u5B9E\u592A\u5FEB\u4E86\uFF0C\u6211\u4EEC\u90FD\u9700\u8981\u5B66\u4F1A\u6162\u4E0B\u6765\u3002\u4F60\u63D0\u5230\u7684\u6570\u5B57\u65AD\u98DF\u6211\u4E5F\u5728\u5C1D\u8BD5\uFF0C\u6548\u679C\u4E0D\u9519\u3002",
       createdAt: "2024-07-16T08:45:00Z",
       likes: 12
@@ -39061,7 +39044,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     {
       id: "5",
       articleId: "4",
-      userId: "3",
+      author: mockUsers[2],
       content: "\u4F5C\u4E3A\u540C\u6837\u5728\u5B66\u65E5\u8BED\u7684\u4EBA\uFF0C\u4F60\u7684\u7ECF\u9A8C\u5206\u4EAB\u5F88\u6709\u5E2E\u52A9\uFF01\u4E94\u5341\u97F3\u56FE\u786E\u5B9E\u662F\u57FA\u7840\uFF0C\u6211\u5F53\u65F6\u4E5F\u82B1\u4E86\u5F88\u957F\u65F6\u95F4\u624D\u8BB0\u4F4F\u3002\u304C\u3093\u3070\u3063\u3066\uFF01",
       createdAt: "2024-07-13T16:30:00Z",
       likes: 6
@@ -39069,7 +39052,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     {
       id: "6",
       articleId: "5",
-      userId: "2",
+      author: mockUsers[1],
       content: "\u666E\u6D31\u8336\u771F\u7684\u662F\u8D8A\u9648\u8D8A\u9999\uFF01\u6211\u4E5F\u6536\u85CF\u4E86\u51E0\u997C\u8001\u8336\uFF0C\u4F60\u7684\u54C1\u8336\u5FC3\u5F97\u8BA9\u6211\u53D7\u76CA\u532A\u6D45\u3002\u79CB\u5929\u786E\u5B9E\u662F\u54C1\u666E\u6D31\u7684\u597D\u65F6\u8282\u3002",
       createdAt: "2024-07-11T10:20:00Z",
       likes: 4
@@ -39077,7 +39060,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
     {
       id: "7",
       articleId: "6",
-      userId: "4",
+      author: mockUsers[3],
       content: "\u96E8\u5929\u6444\u5F71\u7684\u60F3\u6CD5\u5F88\u68D2\uFF01\u6211\u4EE5\u524D\u603B\u89C9\u5F97\u96E8\u5929\u4E0D\u9002\u5408\u62CD\u7167\uFF0C\u770B\u4E86\u4F60\u7684\u6587\u7AE0\u624D\u77E5\u9053\u96E8\u5929\u6709\u8FD9\u4E48\u591A\u62CD\u6444\u53EF\u80FD\u6027\u3002",
       createdAt: "2024-07-06T14:15:00Z",
       likes: 7
@@ -39090,10 +39073,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       type: "comment",
       title: "\u65B0\u8BC4\u8BBA",
       message: "\u8336\u53CB\u5C0F\u660E\u8BC4\u8BBA\u4E86\u4F60\u7684\u6587\u7AE0\u300A\u6625\u65E5\u54C1\u8336\u8BB0\uFF1A\u4E00\u676F\u9F99\u4E95\u7684\u6E29\u67D4\u65F6\u5149\u300B",
-      isRead: false,
-      createdAt: "2024-07-20T15:30:00Z",
-      actionUrl: "/article/spring-tea-longjing",
-      sourceUserId: "2"
+      read: false,
+      createdAt: "2024-07-20T15:30:00Z"
     },
     {
       id: "2",
@@ -39101,9 +39082,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       type: "like",
       title: "\u6587\u7AE0\u83B7\u8D5E",
       message: "\u4F60\u7684\u6587\u7AE0\u300A\u955C\u5934\u4E0B\u7684\u57CE\u5E02\u9EC4\u660F\uFF1A\u8857\u5934\u6444\u5F71\u7684\u9B45\u529B\u300B\u6536\u5230\u4E865\u4E2A\u65B0\u8D5E",
-      isRead: false,
-      createdAt: "2024-07-19T12:20:00Z",
-      actionUrl: "/article/city-sunset-photography"
+      read: false,
+      createdAt: "2024-07-19T12:20:00Z"
     },
     {
       id: "3",
@@ -39111,10 +39091,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       type: "comment",
       title: "\u65B0\u8BC4\u8BBA",
       message: "\u6444\u5F71\u5E08\u5C0F\u674E\u8BC4\u8BBA\u4E86\u4F60\u7684\u6587\u7AE0\u300A\u5173\u4E8E\u6162\u751F\u6D3B\u7684\u601D\u8003\uFF1A\u5728\u5FEB\u8282\u594F\u4E2D\u5BFB\u627E\u5185\u5FC3\u7684\u5E73\u9759\u300B",
-      isRead: true,
-      createdAt: "2024-07-16T08:45:00Z",
-      actionUrl: "/article/slow-living-thoughts",
-      sourceUserId: "3"
+      read: true,
+      createdAt: "2024-07-16T08:45:00Z"
     },
     {
       id: "4",
@@ -39122,10 +39100,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       type: "comment",
       title: "\u65B0\u8BC4\u8BBA",
       message: "\u65E5\u8BED\u5B66\u4E60\u8005\u8BC4\u8BBA\u4E86\u4F60\u7684\u6587\u7AE0\u300A\u65E5\u8BED\u5B66\u4E60\u7B14\u8BB0\uFF1A\u4ECE\u4E94\u5341\u97F3\u5230\u65E5\u5E38\u4F1A\u8BDD\u7684\u5FC3\u8DEF\u5386\u7A0B\u300B",
-      isRead: true,
-      createdAt: "2024-07-13T16:30:00Z",
-      actionUrl: "/article/japanese-learning-journey",
-      sourceUserId: "4"
+      read: true,
+      createdAt: "2024-07-13T16:30:00Z"
     }
   ];
 
@@ -41528,7 +41504,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("header", { className: "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "container mx-auto px-4", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex h-16 items-center justify-between", children: [
         /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(Link, { to: "/", className: "flex items-center space-x-2", children: [
           /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(BookOpen, { className: "h-8 w-8 text-primary" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "text-2xl font-bold text-primary", children: "\u6D77\u6811\u7684\u751F\u6D3B\u672D\u8BB0" })
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "text-2xl font-bold text-primary", children: "\u6D77\u53D4\u7684Blog" })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("nav", { className: "hidden md:flex items-center space-x-6", children: [
           /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
@@ -41637,7 +41613,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "space-y-4", children: [
             /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "flex items-center space-x-2", children: [
               /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(BookOpen, { className: "h-6 w-6 text-primary" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "text-lg font-semibold", children: "\u6D77\u6811\u7684\u751F\u6D3B\u672D\u8BB0" })
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "text-lg font-semibold", children: "\u6D77\u53D4\u7684Blog" })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "text-sm text-muted-foreground", children: "\u5206\u4EAB\u8336\u6587\u5316\u3001\u6444\u5F71\u3001\u601D\u8003\u4E0E\u65E5\u8BED\u5B66\u4E60\u7684\u70B9\u70B9\u6EF4\u6EF4\uFF0C\u8BB0\u5F55\u751F\u6D3B\u4E2D\u7684\u7F8E\u597D\u77AC\u95F4\u3002" })
           ] }),
@@ -41665,7 +41641,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "border-t mt-8 pt-8 text-center", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "text-sm text-muted-foreground", children: "\xA9 2024 \u6D77\u6811\u7684\u751F\u6D3B\u672D\u8BB0. \u4FDD\u7559\u6240\u6709\u6743\u5229. \u7528 \u2764\uFE0F \u8BB0\u5F55\u751F\u6D3B\u7684\u7F8E\u597D\u65F6\u5149." }) })
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "border-t mt-8 pt-8 text-center", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "text-sm text-muted-foreground", children: "\xA9 2024 \u6D77\u53D4\u7684Blog. \u4FDD\u7559\u6240\u6709\u6743\u5229. \u7528 \u2764\uFE0F \u8BB0\u5F55\u751F\u6D3B\u7684\u7F8E\u597D\u65F6\u5149." }) })
       ] }) }),
       /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
         AuthModal,
@@ -42074,10 +42050,10 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         ] }) }),
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "text-center", children: [
           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Avatar2, { className: "h-16 w-16 mx-auto mb-4", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarImage2, { src: "/api/placeholder/64/64", alt: "\u6D77\u6811" }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarFallback2, { children: "\u6D77\u6811" })
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarImage2, { src: "/api/placeholder/64/64", alt: "\u6D77\u53D4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarFallback2, { children: "\u6D77\u53D4" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { className: "font-semibold mb-2", children: "\u6D77\u6811" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { className: "font-semibold mb-2", children: "\u6D77\u53D4" }),
           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "text-sm text-muted-foreground mb-4", children: "\u70ED\u7231\u8336\u6587\u5316\u3001\u6444\u5F71\u548C\u65E5\u8BED\u5B66\u4E60\u7684\u751F\u6D3B\u8BB0\u5F55\u8005\u3002\u5728\u8FD9\u91CC\u5206\u4EAB\u6211\u7684\u601D\u8003\u4E0E\u611F\u609F\u3002" }),
           /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "flex justify-center space-x-4 text-sm", children: [
             /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "text-center", children: [
@@ -42159,7 +42135,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "mb-8", children: [
           /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6", children: [
             /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("h1", { className: "text-3xl font-bold", children: "\u6D77\u6811\u7684\u751F\u6D3B\u672D\u8BB0" }),
+              /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("h1", { className: "text-3xl font-bold", children: "\u6D77\u53D4\u7684Blog" }),
               /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("p", { className: "text-muted-foreground mt-2", children: "\u5206\u4EAB\u8336\u6587\u5316\u3001\u6444\u5F71\u3001\u601D\u8003\u4E0E\u65E5\u8BED\u5B66\u4E60\u7684\u70B9\u70B9\u6EF4\u6EF4" })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "flex items-center space-x-2", children: [

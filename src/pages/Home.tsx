@@ -119,7 +119,7 @@ export default function Home() {
           <div className="mb-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <div>
-                <h1 className="text-3xl font-bold">海树的生活札记</h1>
+                <h1 className="text-3xl font-bold">海叔的Blog</h1>
                 <p className="text-muted-foreground mt-2">
                   分享茶文化、摄影、思考与日语学习的点点滴滴
                 </p>

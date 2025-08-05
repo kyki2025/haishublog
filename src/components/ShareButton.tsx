@@ -48,7 +48,7 @@ export default function ShareButton({ title, url, description }: ShareButtonProp
    * 分享到QQ空间
    */
   const shareToQzone = () => {
-    const qzoneUrl = `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&desc=${encodeURIComponent(description || '')}&summary=${encodeURIComponent(description || '')}&site=海树的生活札记`
+    const qzoneUrl = `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&desc=${encodeURIComponent(description || '')}&summary=${encodeURIComponent(description || '')}&site=海叔的Blog`
     window.open(qzoneUrl, '_blank', 'width=600,height=400')
   }
 
