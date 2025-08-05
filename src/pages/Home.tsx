@@ -19,6 +19,23 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
+  // 滚动到页面顶部的函数
+  const scrollToTop = () => {
+    // 使用 requestAnimationFrame 确保DOM更新完成
+    requestAnimationFrame(() => {
+      // 再次使用 requestAnimationFrame 确保渲染完成
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        })
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
+      })
+    })
+  }
+
   // 处理URL参数中的分类
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
@@ -28,56 +45,16 @@ export default function Home() {
       // 清除URL参数，保持首页URL干净
       window.history.replaceState({}, '', '/#/')
       
-      // 滚动到页面标题位置（考虑固定header的高度）
-      setTimeout(() => {
-        const titleElement = document.querySelector('h1')
-        if (titleElement) {
-          titleElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          })
-        } else {
-          // 如果找不到标题，滚动到main容器顶部
-          const mainElement = document.querySelector('main')
-          if (mainElement) {
-            mainElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'start' 
-            })
-          } else {
-            // 最后的备选方案
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-          }
-        }
-      }, 100)
+      // 等待页面完全显示后再滚动
+      scrollToTop()
     }
   }, [location.search, location.pathname])
 
   // 处理分类变化时的滚动（统一处理所有分类变化）
   useEffect(() => {
     if (selectedCategory) {
-      // 滚动到页面标题位置（考虑固定header的高度）
-      setTimeout(() => {
-        const titleElement = document.querySelector('h1')
-        if (titleElement) {
-          titleElement.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          })
-        } else {
-          // 如果找不到标题，滚动到main容器顶部
-          const mainElement = document.querySelector('main')
-          if (mainElement) {
-            mainElement.scrollIntoView({ 
-              behavior: 'smooth', 
-              block: 'start' 
-            })
-          } else {
-            // 最后的备选方案
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-          }
-        }
-      }, 100)
+      // 等待页面完全显示后再滚动
+      scrollToTop()
     }
   }, [selectedCategory])
 

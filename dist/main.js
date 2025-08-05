@@ -25849,29 +25849,6 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     (!target || target === "_self") && // Let browser handle "target=_blank" etc.
     !isModifiedEvent(event);
   }
-  function createSearchParams(init = "") {
-    return new URLSearchParams(
-      typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo22, key) => {
-        let value = init[key];
-        return memo22.concat(
-          Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]]
-        );
-      }, [])
-    );
-  }
-  function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
-    let searchParams = createSearchParams(locationSearch);
-    if (defaultSearchParams) {
-      defaultSearchParams.forEach((_2, key) => {
-        if (!searchParams.has(key)) {
-          defaultSearchParams.getAll(key).forEach((value) => {
-            searchParams.append(key, value);
-          });
-        }
-      });
-    }
-    return searchParams;
-  }
   var _formDataSupportsSubmitter = null;
   function isFormDataSubmitterSupported() {
     if (_formDataSupportsSubmitter === null) {
@@ -26710,39 +26687,6 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         viewTransition
       ]
     );
-  }
-  function useSearchParams(defaultInit) {
-    warning(
-      typeof URLSearchParams !== "undefined",
-      `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`
-    );
-    let defaultSearchParamsRef = React10.useRef(createSearchParams(defaultInit));
-    let hasSetSearchParamsRef = React10.useRef(false);
-    let location = useLocation();
-    let searchParams = React10.useMemo(
-      () => (
-        // Only merge in the defaults if we haven't yet called setSearchParams.
-        // Once we call that we want those to take precedence, otherwise you can't
-        // remove a param with setSearchParams({}) if it has an initial value
-        getSearchParamsForLocation(
-          location.search,
-          hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current
-        )
-      ),
-      [location.search]
-    );
-    let navigate = useNavigate();
-    let setSearchParams = React10.useCallback(
-      (nextInit, navigateOptions) => {
-        const newSearchParams = createSearchParams(
-          typeof nextInit === "function" ? nextInit(new URLSearchParams(searchParams)) : nextInit
-        );
-        hasSetSearchParamsRef.current = true;
-        navigate("?" + newSearchParams, navigateOptions);
-      },
-      [navigate, searchParams]
-    );
-    return [searchParams, setSearchParams];
   }
   var fetcherId = 0;
   var getUniqueFetcherId = () => `__${String(++fetcherId)}__`;
@@ -42154,16 +42098,39 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   var import_jsx_runtime41 = __toESM(require_jsx_runtime());
   function Home() {
     const { articles } = useBlogStore();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const location = useLocation();
     const [searchQuery, setSearchQuery] = (0, import_react13.useState)("");
     const [selectedCategory, setSelectedCategory] = (0, import_react13.useState)(null);
+    const scrollToTop = () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+          });
+          document.documentElement.scrollTop = 0;
+          document.body.scrollTop = 0;
+        });
+      });
+    };
     (0, import_react13.useEffect)(() => {
+      const searchParams = new URLSearchParams(location.search);
       const categoryFromUrl = searchParams.get("category");
       if (categoryFromUrl) {
         setSelectedCategory(categoryFromUrl);
-        setSearchParams({});
+        window.history.replaceState({}, "", "/#/");
+        scrollToTop();
       }
-    }, [searchParams, setSearchParams]);
+    }, [location.search, location.pathname]);
+    (0, import_react13.useEffect)(() => {
+      if (selectedCategory) {
+        scrollToTop();
+      }
+    }, [selectedCategory]);
+    const handleCategoryChange = (category) => {
+      setSelectedCategory(category);
+    };
     const filteredArticles = (0, import_react13.useMemo)(() => {
       let filtered = articles.filter((article) => article.status === "published");
       if (searchQuery && searchQuery.trim()) {
@@ -42217,7 +42184,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
               Select2,
               {
                 value: selectedCategory || "all",
-                onValueChange: (value) => setSelectedCategory(value === "all" ? null : value),
+                onValueChange: (value) => handleCategoryChange(value === "all" ? null : value),
                 children: [
                   /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(SelectTrigger2, { className: "w-full sm:w-48", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(SelectValue2, { placeholder: "\u5206\u7C7B" }) }),
                   /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)(SelectContent2, { children: [
@@ -42273,7 +42240,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
             article.id
           )) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("section", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("section", { "data-results-section": true, children: [
           /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "flex items-center space-x-2 mb-6", children: [
             /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "h-6 w-1 bg-primary rounded-full" }),
             /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("h2", { className: "text-2xl font-bold", children: searchQuery || selectedCategory ? "\u641C\u7D22\u7ED3\u679C" : "\u6700\u65B0\u6587\u7AE0" })
@@ -42307,7 +42274,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         Sidebar,
         {
           selectedCategory,
-          onCategoryChange: setSelectedCategory
+          onCategoryChange: handleCategoryChange
         }
       ) })
     ] }) });
