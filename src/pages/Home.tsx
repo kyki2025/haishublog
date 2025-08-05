@@ -2,7 +2,8 @@
  * 博客首页
  * 显示文章列表，支持搜索和分类筛选
  */
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+import { useLocation } from 'react-router'
 import { Search, Grid, List } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,8 +15,76 @@ import { useBlogStore } from '@/lib/store'
 
 export default function Home() {
   const { articles } = useBlogStore()
+  const location = useLocation()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+
+  // 处理URL参数中的分类
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search)
+    const categoryFromUrl = searchParams.get('category')
+    if (categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl)
+      // 清除URL参数，保持首页URL干净
+      window.history.replaceState({}, '', '/#/')
+      
+      // 滚动到页面标题位置（考虑固定header的高度）
+      setTimeout(() => {
+        const titleElement = document.querySelector('h1')
+        if (titleElement) {
+          titleElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          })
+        } else {
+          // 如果找不到标题，滚动到main容器顶部
+          const mainElement = document.querySelector('main')
+          if (mainElement) {
+            mainElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            })
+          } else {
+            // 最后的备选方案
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+        }
+      }, 100)
+    }
+  }, [location.search, location.pathname])
+
+  // 处理分类变化时的滚动（统一处理所有分类变化）
+  useEffect(() => {
+    if (selectedCategory) {
+      // 滚动到页面标题位置（考虑固定header的高度）
+      setTimeout(() => {
+        const titleElement = document.querySelector('h1')
+        if (titleElement) {
+          titleElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          })
+        } else {
+          // 如果找不到标题，滚动到main容器顶部
+          const mainElement = document.querySelector('main')
+          if (mainElement) {
+            mainElement.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start' 
+            })
+          } else {
+            // 最后的备选方案
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+        }
+      }, 100)
+    }
+  }, [selectedCategory])
+
+  // 简化分类变化处理函数
+  const handleCategoryChange = (category: string | null) => {
+    setSelectedCategory(category)
+  }
 
   /**
    * 根据搜索和分类筛选文章
@@ -103,7 +172,7 @@ export default function Home() {
               
               <Select 
                 value={selectedCategory || 'all'} 
-                onValueChange={(value) => setSelectedCategory(value === 'all' ? null : value)}
+                onValueChange={(value) => handleCategoryChange(value === 'all' ? null : value)}
               >
                 <SelectTrigger className="w-full sm:w-48">
                   <SelectValue placeholder="分类" />
@@ -168,7 +237,7 @@ export default function Home() {
           )}
 
           {/* 所有文章 / 搜索结果 */}
-          <section>
+          <section data-results-section>
             <div className="flex items-center space-x-2 mb-6">
               <div className="h-6 w-1 bg-primary rounded-full" />
               <h2 className="text-2xl font-bold">
@@ -219,7 +288,7 @@ export default function Home() {
         <div className="lg:col-span-1">
           <Sidebar 
             selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
+            onCategoryChange={handleCategoryChange}
           />
         </div>
       </div>

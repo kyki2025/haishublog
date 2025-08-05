@@ -1097,7 +1097,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect32(create2, deps) {
+          function useEffect33(create2, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create2, deps);
           }
@@ -1880,7 +1880,7 @@
           exports.useContext = useContext10;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect32;
+          exports.useEffect = useEffect33;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect2;
@@ -24518,7 +24518,7 @@
             },
             [subscribe2, value, getSnapshot]
           );
-          useEffect32(
+          useEffect33(
             function() {
               checkIfSnapshotChanged(inst) && forceUpdate({ inst });
               return subscribe2(function() {
@@ -24544,7 +24544,7 @@
           return getSnapshot();
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React70 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState32 = React70.useState, useEffect32 = React70.useEffect, useLayoutEffect7 = React70.useLayoutEffect, useDebugValue = React70.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
+        var React70 = require_react(), objectIs = "function" === typeof Object.is ? Object.is : is, useState32 = React70.useState, useEffect33 = React70.useEffect, useLayoutEffect7 = React70.useLayoutEffect, useDebugValue = React70.useDebugValue, didWarnOld18Alpha = false, didWarnUncachedGetSnapshot = false, shim = "undefined" === typeof window || "undefined" === typeof window.document || "undefined" === typeof window.document.createElement ? useSyncExternalStore$1 : useSyncExternalStore$2;
         exports.useSyncExternalStore = void 0 !== React70.useSyncExternalStore ? React70.useSyncExternalStore : shim;
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
       })();
@@ -25849,6 +25849,29 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     (!target || target === "_self") && // Let browser handle "target=_blank" etc.
     !isModifiedEvent(event);
   }
+  function createSearchParams(init = "") {
+    return new URLSearchParams(
+      typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo22, key) => {
+        let value = init[key];
+        return memo22.concat(
+          Array.isArray(value) ? value.map((v) => [key, v]) : [[key, value]]
+        );
+      }, [])
+    );
+  }
+  function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+    let searchParams = createSearchParams(locationSearch);
+    if (defaultSearchParams) {
+      defaultSearchParams.forEach((_2, key) => {
+        if (!searchParams.has(key)) {
+          defaultSearchParams.getAll(key).forEach((value) => {
+            searchParams.append(key, value);
+          });
+        }
+      });
+    }
+    return searchParams;
+  }
   var _formDataSupportsSubmitter = null;
   function isFormDataSubmitterSupported() {
     if (_formDataSupportsSubmitter === null) {
@@ -26687,6 +26710,39 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         viewTransition
       ]
     );
+  }
+  function useSearchParams(defaultInit) {
+    warning(
+      typeof URLSearchParams !== "undefined",
+      `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`
+    );
+    let defaultSearchParamsRef = React10.useRef(createSearchParams(defaultInit));
+    let hasSetSearchParamsRef = React10.useRef(false);
+    let location = useLocation();
+    let searchParams = React10.useMemo(
+      () => (
+        // Only merge in the defaults if we haven't yet called setSearchParams.
+        // Once we call that we want those to take precedence, otherwise you can't
+        // remove a param with setSearchParams({}) if it has an initial value
+        getSearchParamsForLocation(
+          location.search,
+          hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current
+        )
+      ),
+      [location.search]
+    );
+    let navigate = useNavigate();
+    let setSearchParams = React10.useCallback(
+      (nextInit, navigateOptions) => {
+        const newSearchParams = createSearchParams(
+          typeof nextInit === "function" ? nextInit(new URLSearchParams(searchParams)) : nextInit
+        );
+        hasSetSearchParamsRef.current = true;
+        navigate("?" + newSearchParams, navigateOptions);
+      },
+      [navigate, searchParams]
+    );
+    return [searchParams, setSearchParams];
   }
   var fetcherId = 0;
   var getUniqueFetcherId = () => `__${String(++fetcherId)}__`;
@@ -41651,10 +41707,10 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("h3", { className: "font-semibold mb-4", children: "\u5206\u7C7B" }),
             /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "space-y-2", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u8336\u6587\u5316" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u6444\u5F71" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u601D\u8003" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u65E5\u8BED" })
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u8336\u6587\u5316", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u8336\u6587\u5316" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u6444\u5F71", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u6444\u5F71" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u601D\u8003", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u601D\u8003" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u65E5\u8BED", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u65E5\u8BED" })
             ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
@@ -42098,8 +42154,16 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   var import_jsx_runtime41 = __toESM(require_jsx_runtime());
   function Home() {
     const { articles } = useBlogStore();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [searchQuery, setSearchQuery] = (0, import_react13.useState)("");
     const [selectedCategory, setSelectedCategory] = (0, import_react13.useState)(null);
+    (0, import_react13.useEffect)(() => {
+      const categoryFromUrl = searchParams.get("category");
+      if (categoryFromUrl) {
+        setSelectedCategory(categoryFromUrl);
+        setSearchParams({});
+      }
+    }, [searchParams, setSearchParams]);
     const filteredArticles = (0, import_react13.useMemo)(() => {
       let filtered = articles.filter((article) => article.status === "published");
       if (searchQuery && searchQuery.trim()) {
