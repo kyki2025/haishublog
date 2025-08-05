@@ -9,20 +9,27 @@ import { useBlogStore } from './lib/store'
 import { mockArticles, mockUsers, mockComments } from './lib/mockData'
 
 export default function App() {
-  const { setArticles, users, articles } = useBlogStore()
+  const { users, articles } = useBlogStore()
 
-  // Inicializar dados mock na primeira renderização
+  // 初始化mock数据
   useEffect(() => {
-    if (articles.length === 0) {
-      setArticles(mockArticles)
+    const store = useBlogStore.getState()
+    
+    // 如果store中没有文章数据，使用mock数据
+    if (store.articles.length === 0) {
+      store.articles = mockArticles
     }
     
-    // Garantir que os usuários mock estão no store
-    const store = useBlogStore.getState()
+    // 如果store中没有用户数据，使用mock数据
     if (store.users.length === 0) {
       store.users = mockUsers
     }
-  }, [setArticles, articles.length])
+    
+    // 如果store中没有评论数据，使用mock数据
+    if (store.comments.length === 0) {
+      store.comments = mockComments
+    }
+  }, [])
 
   return (
     <ThemeProvider

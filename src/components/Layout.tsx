@@ -238,18 +238,18 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h3 className="font-semibold mb-4">分类</h3>
               <div className="space-y-2">
-                <Link to="/?category=茶文化" className="block text-sm text-muted-foreground hover:text-foreground">
+                <span className="block text-sm text-muted-foreground">
                   茶文化
-                </Link>
-                <Link to="/?category=摄影" className="block text-sm text-muted-foreground hover:text-foreground">
+                </span>
+                <span className="block text-sm text-muted-foreground">
                   摄影
-                </Link>
-                <Link to="/?category=思考" className="block text-sm text-muted-foreground hover:text-foreground">
+                </span>
+                <span className="block text-sm text-muted-foreground">
                   思考
-                </Link>
-                <Link to="/?category=日语" className="block text-sm text-muted-foreground hover:text-foreground">
+                </span>
+                <span className="block text-sm text-muted-foreground">
                   日语
-                </Link>
+                </span>
               </div>
             </div>
             

@@ -8,9 +8,15 @@ import { Calendar, Tag, TrendingUp, Users } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import { useBlogStore } from '@/lib/store'
 
-export default function Sidebar() {
+interface SidebarProps {
+  selectedCategory?: string | null
+  onCategoryChange?: (category: string | null) => void
+}
+
+export default function Sidebar({ selectedCategory, onCategoryChange }: SidebarProps) {
   const { articles, users } = useBlogStore()
 
   /**
@@ -122,15 +128,31 @@ export default function Sidebar() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
+            {/* 所有分类选项 */}
+            <Button
+              variant={!selectedCategory ? "default" : "ghost"}
+              className="w-full justify-between h-auto p-2"
+              onClick={() => onCategoryChange?.(null)}
+            >
+              <span className="font-medium">所有分类</span>
+              <Badge variant={!selectedCategory ? "secondary" : "outline"}>
+                {publishedArticles.length}
+              </Badge>
+            </Button>
+            
+            {/* 具体分类选项 */}
             {categoryStats.map(([category, count]) => (
-              <Link
+              <Button
                 key={category}
-                to={`/?category=${encodeURIComponent(category)}`}
-                className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
+                variant={selectedCategory === category ? "default" : "ghost"}
+                className="w-full justify-between h-auto p-2"
+                onClick={() => onCategoryChange?.(category)}
               >
                 <span className="font-medium">{category}</span>
-                <Badge variant="secondary">{count}</Badge>
-              </Link>
+                <Badge variant={selectedCategory === category ? "secondary" : "outline"}>
+                  {count}
+                </Badge>
+              </Button>
             ))}
           </div>
         </CardContent>
@@ -144,18 +166,13 @@ export default function Sidebar() {
         <CardContent>
           <div className="flex flex-wrap gap-2">
             {popularTags.map(([tag, count]) => (
-              <Link
+              <Badge 
                 key={tag}
-                to={`/?tag=${encodeURIComponent(tag)}`}
-                className="inline-block"
+                variant="outline" 
+                className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
               >
-                <Badge 
-                  variant="outline" 
-                  className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
-                >
-                  {tag} ({count})
-                </Badge>
-              </Link>
+                {tag} ({count})
+              </Badge>
             ))}
           </div>
         </CardContent>

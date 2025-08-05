@@ -41651,10 +41651,10 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("h3", { className: "font-semibold mb-4", children: "\u5206\u7C7B" }),
             /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "space-y-2", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u8336\u6587\u5316", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u8336\u6587\u5316" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u6444\u5F71", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u6444\u5F71" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u601D\u8003", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u601D\u8003" }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Link, { to: "/?category=\u65E5\u8BED", className: "block text-sm text-muted-foreground hover:text-foreground", children: "\u65E5\u8BED" })
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u8336\u6587\u5316" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u6444\u5F71" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u601D\u8003" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "block text-sm text-muted-foreground", children: "\u65E5\u8BED" })
             ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { children: [
@@ -41894,7 +41894,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
   // src/components/Sidebar.tsx
   var import_react12 = __toESM(require_react());
   var import_jsx_runtime40 = __toESM(require_jsx_runtime());
-  function Sidebar() {
+  function Sidebar({ selectedCategory, onCategoryChange }) {
     const { articles, users } = useBlogStore();
     const publishedArticles = (0, import_react12.useMemo)(() => {
       return articles.filter((article) => article.status === "published");
@@ -41961,39 +41961,47 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Tag, { className: "h-5 w-5" }),
           /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "\u6587\u7AE0\u5206\u7C7B" })
         ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "space-y-2", children: categoryStats.map(([category, count3]) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
-          Link,
-          {
-            to: `/?category=${encodeURIComponent(category)}`,
-            className: "flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "font-medium", children: category }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Badge, { variant: "secondary", children: count3 })
-            ]
-          },
-          category
-        )) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "space-y-2", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
+            Button,
+            {
+              variant: !selectedCategory ? "default" : "ghost",
+              className: "w-full justify-between h-auto p-2",
+              onClick: () => onCategoryChange?.(null),
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "font-medium", children: "\u6240\u6709\u5206\u7C7B" }),
+                /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Badge, { variant: !selectedCategory ? "secondary" : "outline", children: publishedArticles.length })
+              ]
+            }
+          ),
+          categoryStats.map(([category, count3]) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
+            Button,
+            {
+              variant: selectedCategory === category ? "default" : "ghost",
+              className: "w-full justify-between h-auto p-2",
+              onClick: () => onCategoryChange?.(category),
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "font-medium", children: category }),
+                /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Badge, { variant: selectedCategory === category ? "secondary" : "outline", children: count3 })
+              ]
+            },
+            category
+          ))
+        ] }) })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Card, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardHeader, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardTitle, { children: "\u70ED\u95E8\u6807\u7B7E" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex flex-wrap gap-2", children: popularTags.map(([tag, count3]) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
-          Link,
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CardContent, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "flex flex-wrap gap-2", children: popularTags.map(([tag, count3]) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
+          Badge,
           {
-            to: `/?tag=${encodeURIComponent(tag)}`,
-            className: "inline-block",
-            children: /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(
-              Badge,
-              {
-                variant: "outline",
-                className: "hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer",
-                children: [
-                  tag,
-                  " (",
-                  count3,
-                  ")"
-                ]
-              }
-            )
+            variant: "outline",
+            className: "hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer",
+            children: [
+              tag,
+              " (",
+              count3,
+              ")"
+            ]
           },
           tag
         )) }) })
@@ -42231,7 +42239,13 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         ] }),
         filteredArticles.length > 0 && !searchQuery && !selectedCategory && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "text-center mt-12", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Button, { variant: "outline", size: "lg", children: "\u52A0\u8F7D\u66F4\u591A\u6587\u7AE0" }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "lg:col-span-1", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(Sidebar, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("div", { className: "lg:col-span-1", children: /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(
+        Sidebar,
+        {
+          selectedCategory,
+          onCategoryChange: setSelectedCategory
+        }
+      ) })
     ] }) });
   }
 
@@ -42287,7 +42301,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
       setLikesCount((prev) => isLiked ? prev - 1 : prev + 1);
     };
     const handleSubmitComment = () => {
-      if (!newComment.trim()) return;
+      if (!newComment.trim() || !article) return;
       const comment = {
         id: Date.now().toString(),
         articleId: article.id,
@@ -42296,7 +42310,10 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           id: "current-user",
           name: "\u6E38\u5BA2",
           avatar: "",
-          email: "guest@example.com"
+          email: "guest@example.com",
+          bio: "",
+          role: "user",
+          createdAt: (/* @__PURE__ */ new Date()).toISOString()
         },
         createdAt: (/* @__PURE__ */ new Date()).toISOString(),
         likes: 0
@@ -43966,16 +43983,19 @@ For more information, see https://radix-ui.com/primitives/docs/components/alert-
   // src/App.tsx
   var import_jsx_runtime53 = __toESM(require_jsx_runtime());
   function App() {
-    const { setArticles, users, articles } = useBlogStore();
+    const { users, articles } = useBlogStore();
     (0, import_react19.useEffect)(() => {
-      if (articles.length === 0) {
-        setArticles(mockArticles);
-      }
       const store = useBlogStore.getState();
+      if (store.articles.length === 0) {
+        store.articles = mockArticles;
+      }
       if (store.users.length === 0) {
         store.users = mockUsers;
       }
-    }, [setArticles, articles.length]);
+      if (store.comments.length === 0) {
+        store.comments = mockComments;
+      }
+    }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(
       ThemeProvider,
       {

@@ -217,7 +217,10 @@ export default function Home() {
 
         {/* 侧边栏 */}
         <div className="lg:col-span-1">
-          <Sidebar />
+          <Sidebar 
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
         </div>
       </div>
     </Layout>
