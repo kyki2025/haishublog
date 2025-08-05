@@ -42372,22 +42372,22 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
         ] })
       ] }) });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "min-h-screen bg-gray-50", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "bg-white shadow-sm border-b", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "max-w-4xl mx-auto px-4 py-4", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(Button, { onClick: handleBack, variant: "ghost", size: "sm", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(Layout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "mb-6", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(Button, { onClick: handleBack, variant: "ghost", size: "sm", children: [
         /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(ArrowLeft, { className: "h-4 w-4 mr-2" }),
         "\u8FD4\u56DE"
-      ] }) }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "max-w-4xl mx-auto px-4 py-8", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { className: "bg-white rounded-lg shadow-sm p-8", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h1", { className: "text-3xl font-bold text-gray-900 mb-4", children: article.title }),
+      ] }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "max-w-4xl mx-auto", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { className: "bg-card rounded-lg shadow-sm p-8 border", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h1", { className: "text-3xl font-bold mb-4", children: article.title }),
           /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex items-center space-x-4 mb-6 pb-6 border-b", children: [
             /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(Avatar2, { className: "h-12 w-12", children: [
               /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(AvatarImage2, { src: author?.avatar, alt: author?.name }),
               /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(AvatarFallback2, { children: author?.name?.split(" ").map((n) => n[0]).join("") || "A" })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "font-medium text-gray-900", children: author?.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "text-sm text-gray-500", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "font-medium", children: author?.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "text-sm text-muted-foreground", children: [
                 formatDate(article.createdAt),
                 " \xB7 ",
                 article.category
@@ -42401,15 +42401,16 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
               alt: article.title,
               className: "w-full h-64 object-cover rounded-lg",
               onError: (e) => {
-                e.target.style.display = "none";
+                const target = e.target;
+                target.style.display = "none";
               }
             }
           ) }),
-          article.excerpt && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "text-lg text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500", children: article.excerpt }),
+          article.excerpt && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "text-lg text-muted-foreground mb-8 p-4 bg-muted rounded-lg border-l-4 border-primary", children: article.excerpt }),
           /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(
             "div",
             {
-              className: "prose prose-lg max-w-none mb-8",
+              className: "prose prose-lg max-w-none mb-8 dark:prose-invert",
               dangerouslySetInnerHTML: {
                 __html: renderMarkdown(article.content)
               }
@@ -42418,7 +42419,7 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
           article.tags && article.tags.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "mb-8", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "flex flex-wrap gap-2", children: article.tags.map((tag, index2) => /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
             "span",
             {
-              className: "px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full",
+              className: "px-3 py-1 bg-primary/10 text-primary text-sm rounded-full",
               children: [
                 "#",
                 tag
@@ -42453,8 +42454,8 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "bg-white rounded-lg shadow-sm p-8 mt-8", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("h3", { className: "text-xl font-bold text-gray-900 mb-6", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "bg-card rounded-lg shadow-sm p-8 mt-8 border", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("h3", { className: "text-xl font-bold mb-6", children: [
             "\u8BC4\u8BBA (",
             articleComments.length,
             ")"
@@ -42481,12 +42482,12 @@ For more information, see https://radix-ui.com/primitives/docs/components/${titl
               /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex-1", children: [
                 /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "flex items-center space-x-2 mb-1", children: [
                   /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "font-medium", children: comment.author?.name }),
-                  /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "text-sm text-gray-500", children: formatDate(comment.createdAt) })
+                  /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "text-sm text-muted-foreground", children: formatDate(comment.createdAt) })
                 ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "text-gray-700", children: comment.content })
+                /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "text-foreground", children: comment.content })
               ] })
             ] }, comment.id)),
-            articleComments.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "text-center py-8 text-gray-500", children: "\u6682\u65E0\u8BC4\u8BBA\uFF0C\u5FEB\u6765\u53D1\u8868\u7B2C\u4E00\u6761\u8BC4\u8BBA\u5427\uFF01" })
+            articleComments.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "text-center py-8 text-muted-foreground", children: "\u6682\u65E0\u8BC4\u8BBA\uFF0C\u5FEB\u6765\u53D1\u8868\u7B2C\u4E00\u6761\u8BC4\u8BBA\u5427\uFF01" })
           ] })
         ] })
       ] })

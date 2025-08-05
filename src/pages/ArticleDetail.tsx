@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { ArrowLeft, Heart, MessageCircle, Share2, Bookmark } from 'lucide-react'
 import { mockArticles, mockUsers, mockComments } from '@/lib/mockData'
 import type { Article, User, Comment } from '@/lib/store'
+import Layout from '@/components/Layout'
 
 export default function ArticleDetail() {
   const [article, setArticle] = useState<Article | null>(null)
@@ -124,22 +125,20 @@ export default function ArticleDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* 头部导航 */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          <Button onClick={handleBack} variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            返回
-          </Button>
-        </div>
+    <Layout>
+      {/* 返回按钮 */}
+      <div className="mb-6">
+        <Button onClick={handleBack} variant="ghost" size="sm">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          返回
+        </Button>
       </div>
 
       {/* 文章内容 */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <article className="bg-white rounded-lg shadow-sm p-8">
+      <div className="max-w-4xl mx-auto">
+        <article className="bg-card rounded-lg shadow-sm p-8 border">
           {/* 文章标题 */}
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold mb-4">
             {article.title}
           </h1>
 
@@ -152,8 +151,8 @@ export default function ArticleDetail() {
               </AvatarFallback>
             </Avatar>
             <div>
-              <div className="font-medium text-gray-900">{author?.name}</div>
-              <div className="text-sm text-gray-500">
+              <div className="font-medium">{author?.name}</div>
+              <div className="text-sm text-muted-foreground">
                 {formatDate(article.createdAt)} · {article.category}
               </div>
             </div>
@@ -167,7 +166,8 @@ export default function ArticleDetail() {
                 alt={article.title}
                 className="w-full h-64 object-cover rounded-lg"
                 onError={(e) => {
-                  e.target.style.display = 'none'
+                  const target = e.target as HTMLImageElement
+                  target.style.display = 'none'
                 }}
               />
             </div>
@@ -175,14 +175,14 @@ export default function ArticleDetail() {
 
           {/* 文章摘要 */}
           {article.excerpt && (
-            <div className="text-lg text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+            <div className="text-lg text-muted-foreground mb-8 p-4 bg-muted rounded-lg border-l-4 border-primary">
               {article.excerpt}
             </div>
           )}
 
           {/* 文章内容 */}
           <div 
-            className="prose prose-lg max-w-none mb-8"
+            className="prose prose-lg max-w-none mb-8 dark:prose-invert"
             dangerouslySetInnerHTML={{ 
               __html: renderMarkdown(article.content) 
             }}
@@ -195,7 +195,7 @@ export default function ArticleDetail() {
                 {article.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
+                    className="px-3 py-1 bg-primary/10 text-primary text-sm rounded-full"
                   >
                     #{tag}
                   </span>
@@ -230,8 +230,8 @@ export default function ArticleDetail() {
         </article>
 
         {/* 评论区域 */}
-        <div className="bg-white rounded-lg shadow-sm p-8 mt-8">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">
+        <div className="bg-card rounded-lg shadow-sm p-8 mt-8 border">
+          <h3 className="text-xl font-bold mb-6">
             评论 ({articleComments.length})
           </h3>
 
@@ -262,23 +262,23 @@ export default function ArticleDetail() {
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-1">
                     <span className="font-medium">{comment.author?.name}</span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-muted-foreground">
                       {formatDate(comment.createdAt)}
                     </span>
                   </div>
-                  <p className="text-gray-700">{comment.content}</p>
+                  <p className="text-foreground">{comment.content}</p>
                 </div>
               </div>
             ))}
 
             {articleComments.length === 0 && (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-muted-foreground">
                 暂无评论，快来发表第一条评论吧！
               </div>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
