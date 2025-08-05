@@ -1,8 +1,9 @@
 /**
- * Botão para favoritar/desfavoritar artigos
- * Gerencia estado persistente de favoritos
+ * 收藏按钮组件
+ * 允许用户收藏和取消收藏文章
  */
-import { BookmarkPlus, BookmarkCheck } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Bookmark, BookmarkCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useBlogStore } from '@/lib/store'
 import { toast } from 'sonner'
@@ -10,61 +11,47 @@ import { toast } from 'sonner'
 interface FavoriteButtonProps {
   articleId: string
   articleTitle: string
-  variant?: 'default' | 'outline' | 'ghost'
-  size?: 'default' | 'sm' | 'lg'
-  showText?: boolean
-  className?: string
 }
 
-export default function FavoriteButton({ 
-  articleId, 
-  articleTitle,
-  variant = 'outline',
-  size = 'sm',
-  showText = true,
-  className = ''
-}: FavoriteButtonProps) {
+export default function FavoriteButton({ articleId, articleTitle }: FavoriteButtonProps) {
   const { currentUser, toggleFavorite, isFavorite } = useBlogStore()
   
   const isArticleFavorited = isFavorite(articleId)
 
   /**
-   * Manipula o clique no botão de favoritar
+   * 切换收藏状态
    */
-  const handleToggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault() // Evita navegação se estiver dentro de um link
-    
+  const handleToggleFavorite = () => {
     if (!currentUser) {
-      toast.error('Faça login para favoritar artigos')
+      toast.error('请先登录后再收藏文章')
       return
     }
 
     toggleFavorite(articleId)
     
     if (isArticleFavorited) {
-      toast.success('Artigo removido dos favoritos')
+      toast.success('已取消收藏')
     } else {
-      toast.success('Artigo adicionado aos favoritos!')
+      toast.success('已添加到收藏')
     }
   }
 
   return (
     <Button
-      variant={variant}
-      size={size}
+      variant="outline"
+      size="sm"
       onClick={handleToggleFavorite}
-      className={className}
       disabled={!currentUser}
     >
       {isArticleFavorited ? (
         <>
           <BookmarkCheck className="h-4 w-4 mr-2 fill-current" />
-          {showText && 'Favoritado'}
+          已收藏
         </>
       ) : (
         <>
-          <BookmarkPlus className="h-4 w-4 mr-2" />
-          {showText && 'Favoritar'}
+          <Bookmark className="h-4 w-4 mr-2" />
+          收藏
         </>
       )}
     </Button>

@@ -1,201 +1,281 @@
 /**
- * Sidebar com categorias, artigos populares e tags
- * Componente responsivo que se adapta a diferentes tamanhos de tela
+ * 侧边栏组件
+ * 显示分类、标签、最新文章等信息
  */
+import { useMemo } from 'react'
 import { Link } from 'react-router'
-import { TrendingUp, Tag, User, Calendar } from 'lucide-react'
+import { Calendar, Tag, TrendingUp, Users } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useBlogStore } from '@/lib/store'
-import { mockUsers } from '@/lib/mockData'
 
 export default function Sidebar() {
-  const { articles, setSelectedCategory, selectedCategory } = useBlogStore()
+  const { articles, users } = useBlogStore()
 
   /**
-   * Obter categorias únicas dos artigos
+   * 获取已发布的文章
    */
-  const categories = Array.from(new Set(articles.map(article => article.category)))
+  const publishedArticles = useMemo(() => {
+    return articles.filter(article => article.status === 'published')
+  }, [articles])
 
   /**
-   * Obter artigos mais populares (por visualizações)
+   * 分类统计
    */
-  const popularArticles = [...articles]
-    .sort((a, b) => b.views - a.views)
-    .slice(0, 5)
+  const categoryStats = useMemo(() => {
+    const stats: Record<string, number> = {}
+    publishedArticles.forEach(article => {
+      stats[article.category] = (stats[article.category] || 0) + 1
+    })
+    return Object.entries(stats).sort((a, b) => b[1] - a[1])
+  }, [publishedArticles])
 
   /**
-   * Obter todas as tags únicas
+   * 热门标签
    */
-  const allTags = Array.from(
-    new Set(articles.flatMap(article => article.tags))
-  ).slice(0, 15)
+  const popularTags = useMemo(() => {
+    const tagCount: Record<string, number> = {}
+    publishedArticles.forEach(article => {
+      article.tags.forEach(tag => {
+        tagCount[tag] = (tagCount[tag] || 0) + 1
+      })
+    })
+    return Object.entries(tagCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+  }, [publishedArticles])
 
   /**
-   * Formatar data para exibição
+   * 最新文章
+   */
+  const recentArticles = useMemo(() => {
+    return publishedArticles
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 5)
+  }, [publishedArticles])
+
+  /**
+   * 热门文章
+   */
+  const popularArticles = useMemo(() => {
+    return publishedArticles
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 5)
+  }, [publishedArticles])
+
+  /**
+   * 格式化日期
    */
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      day: 'numeric',
-      month: 'short'
+    return new Date(dateString).toLocaleDateString('zh-CN', {
+      month: 'short',
+      day: 'numeric'
     })
-  }
-
-  /**
-   * Obter autor por ID
-   */
-  const getAuthor = (authorId: string) => {
-    return mockUsers.find(user => user.id === authorId)
   }
 
   return (
     <div className="space-y-6">
-      {/* Categorias */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Tag className="h-5 w-5" />
-            <span>Categorias</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <button
-            onClick={() => setSelectedCategory(null)}
-            className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${
-              selectedCategory === null 
-                ? 'bg-primary text-primary-foreground' 
-                : 'hover:bg-muted'
-            }`}
-          >
-            Todas as categorias
-          </button>
-          {categories.map((category) => {
-            const count = articles.filter(article => article.category === category).length
-            return (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`w-full text-left px-3 py-2 rounded-lg transition-colors flex items-center justify-between ${
-                  selectedCategory === category 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'hover:bg-muted'
-                }`}
-              >
-                <span>{category}</span>
-                <Badge variant="secondary" className="ml-2">
-                  {count}
-                </Badge>
-              </button>
-            )
-          })}
-        </CardContent>
-      </Card>
-
-      {/* Artigos Populares */}
+      {/* 博客统计 */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <TrendingUp className="h-5 w-5" />
-            <span>Mais Lidos</span>
+            <span>博客统计</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          {popularArticles.map((article, index) => {
-            const author = getAuthor(article.authorId)
-            return (
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">{publishedArticles.length}</div>
+              <div className="text-sm text-muted-foreground">文章</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">{users.length}</div>
+              <div className="text-sm text-muted-foreground">用户</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">
+                {publishedArticles.reduce((sum, article) => sum + article.views, 0)}
+              </div>
+              <div className="text-sm text-muted-foreground">总浏览</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">
+                {publishedArticles.reduce((sum, article) => sum + article.likes, 0)}
+              </div>
+              <div className="text-sm text-muted-foreground">总点赞</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 文章分类 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Tag className="h-5 w-5" />
+            <span>文章分类</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            {categoryStats.map(([category, count]) => (
+              <Link
+                key={category}
+                to={`/?category=${encodeURIComponent(category)}`}
+                className="flex items-center justify-between p-2 rounded-lg hover:bg-muted transition-colors"
+              >
+                <span className="font-medium">{category}</span>
+                <Badge variant="secondary">{count}</Badge>
+              </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 热门标签 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>热门标签</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap gap-2">
+            {popularTags.map(([tag, count]) => (
+              <Link
+                key={tag}
+                to={`/?tag=${encodeURIComponent(tag)}`}
+                className="inline-block"
+              >
+                <Badge 
+                  variant="outline" 
+                  className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
+                >
+                  {tag} ({count})
+                </Badge>
+              </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 最新文章 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Calendar className="h-5 w-5" />
+            <span>最新文章</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {recentArticles.map((article) => (
               <Link
                 key={article.id}
                 to={`/article/${article.slug}`}
                 className="block group"
               >
-                <div className="flex space-x-3">
-                  <div className="flex-shrink-0">
-                    <span className="flex items-center justify-center w-8 h-8 bg-primary/10 text-primary rounded-full text-sm font-medium">
-                      {index + 1}
-                    </span>
-                  </div>
+                <div className="flex items-start space-x-3">
+                  {article.coverImage && (
+                    <img
+                      src={article.coverImage}
+                      alt={article.title}
+                      className="w-16 h-12 object-cover rounded flex-shrink-0"
+                    />
+                  )}
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium line-clamp-2 group-hover:text-primary transition-colors">
+                    <h4 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors">
                       {article.title}
                     </h4>
-                    <div className="flex items-center space-x-2 mt-1 text-xs text-muted-foreground">
-                      {author && (
-                        <div className="flex items-center space-x-1">
-                          <Avatar className="h-4 w-4">
-                            <AvatarImage src={author.avatar} alt={author.name} />
-                            <AvatarFallback className="text-xs">
-                              {author.name.split(' ').map(n => n[0]).join('')}
-                            </AvatarFallback>
-                          </Avatar>
-                          <span>{author.name}</span>
-                        </div>
-                      )}
-                      <span>•</span>
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="h-3 w-3" />
-                        <span>{formatDate(article.publishedAt)}</span>
-                      </div>
-                    </div>
                     <div className="flex items-center space-x-2 mt-1">
                       <span className="text-xs text-muted-foreground">
-                        {article.views} visualizações
+                        {formatDate(article.createdAt)}
                       </span>
+                      <Badge variant="secondary" className="text-xs">
+                        {article.category}
+                      </Badge>
                     </div>
                   </div>
                 </div>
               </Link>
-            )
-          })}
-        </CardContent>
-      </Card>
-
-      {/* Tags Populares */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Tag className="h-5 w-5" />
-            <span>Tags Populares</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {allTags.map((tag) => {
-              const count = articles.filter(article => 
-                article.tags.includes(tag)
-              ).length
-              return (
-                <Badge
-                  key={tag}
-                  variant="outline"
-                  className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  {tag} ({count})
-                </Badge>
-              )
-            })}
+            ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Newsletter */}
-      <Card className="bg-gradient-to-br from-primary/5 to-primary/10">
+      {/* 热门文章 */}
+      <Card>
         <CardHeader>
-          <CardTitle>📧 Newsletter</CardTitle>
+          <CardTitle className="flex items-center space-x-2">
+            <TrendingUp className="h-5 w-5" />
+            <span>热门文章</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground mb-4">
-            Receba as últimas novidades sobre Libras e educação inclusiva diretamente no seu email.
-          </p>
-          <div className="space-y-3">
-            <input
-              type="email"
-              placeholder="Seu email"
-              className="w-full px-3 py-2 border border-input rounded-lg bg-background"
-            />
-            <button className="w-full bg-primary text-primary-foreground px-3 py-2 rounded-lg hover:bg-primary/90 transition-colors">
-              Inscrever-se
-            </button>
+          <div className="space-y-4">
+            {popularArticles.map((article, index) => (
+              <Link
+                key={article.id}
+                to={`/article/${article.slug}`}
+                className="block group"
+              >
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors">
+                      {article.title}
+                    </h4>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <span className="text-xs text-muted-foreground flex items-center space-x-1">
+                        <TrendingUp className="h-3 w-3" />
+                        <span>{article.views} 浏览</span>
+                      </span>
+                      <Badge variant="secondary" className="text-xs">
+                        {article.category}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* 作者信息 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Users className="h-5 w-5" />
+            <span>关于作者</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center">
+            <Avatar className="h-16 w-16 mx-auto mb-4">
+              <AvatarImage src="/api/placeholder/64/64" alt="海树" />
+              <AvatarFallback>海树</AvatarFallback>
+            </Avatar>
+            <h3 className="font-semibold mb-2">海树</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              热爱茶文化、摄影和日语学习的生活记录者。在这里分享我的思考与感悟。
+            </p>
+            <div className="flex justify-center space-x-4 text-sm">
+              <div className="text-center">
+                <div className="font-semibold">{publishedArticles.length}</div>
+                <div className="text-muted-foreground">文章</div>
+              </div>
+              <div className="text-center">
+                <div className="font-semibold">
+                  {publishedArticles.reduce((sum, article) => sum + article.views, 0)}
+                </div>
+                <div className="text-muted-foreground">浏览</div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

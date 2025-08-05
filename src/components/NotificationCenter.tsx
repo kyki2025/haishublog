@@ -1,46 +1,49 @@
 /**
- * Centro de notificações com dropdown e gerenciamento de estado
- * Exibe notificações não lidas e permite marcar como lidas
+ * 通知中心组件
+ * 显示用户通知并支持标记为已读
  */
-import { useState, useEffect } from 'react'
-import { Bell, Check, X, MessageCircle, Heart, UserPlus, FileText } from 'lucide-react'
+import { useState } from 'react'
+import { Bell, Check, MessageCircle, Heart, UserPlus, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useBlogStore, Notification } from '@/lib/store'
-import { Link } from 'react-router'
 
 export default function NotificationCenter() {
   const { 
     currentUser, 
     notifications, 
-    markNotificationAsRead, 
-    markAllNotificationsAsRead,
-    getUnreadNotifications,
+    markNotificationAsRead,
     users 
   } = useBlogStore()
   
   const [isOpen, setIsOpen] = useState(false)
-  const [unreadNotifications, setUnreadNotifications] = useState<Notification[]>([])
-
-  useEffect(() => {
-    if (currentUser) {
-      const unread = getUnreadNotifications(currentUser.id)
-      setUnreadNotifications(unread)
-    }
-  }, [currentUser, notifications, getUnreadNotifications])
 
   /**
-   * Obtém o ícone baseado no tipo de notificação
+   * 获取未读通知
+   */
+  const unreadNotifications = notifications.filter(
+    n => n.userId === currentUser?.id && !n.read
+  )
+
+  /**
+   * 获取用户通知（最新20条）
+   */
+  const userNotifications = notifications
+    .filter(n => n.userId === currentUser?.id)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 20)
+
+  /**
+   * 获取通知图标
    */
   const getNotificationIcon = (type: Notification['type']) => {
     switch (type) {
@@ -50,7 +53,7 @@ export default function NotificationCenter() {
         return <Heart className="h-4 w-4 text-red-500" />
       case 'follow':
         return <UserPlus className="h-4 w-4 text-green-500" />
-      case 'article_published':
+      case 'article':
         return <FileText className="h-4 w-4 text-purple-500" />
       default:
         return <Bell className="h-4 w-4" />
@@ -58,7 +61,7 @@ export default function NotificationCenter() {
   }
 
   /**
-   * Formata a data da notificação
+   * 格式化通知时间
    */
   const formatNotificationDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -66,50 +69,39 @@ export default function NotificationCenter() {
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60))
 
     if (diffInHours < 1) {
-      return 'Agora mesmo'
+      return '刚刚'
     } else if (diffInHours < 24) {
-      return `${diffInHours}h atrás`
+      return `${diffInHours}小时前`
     } else {
       const diffInDays = Math.floor(diffInHours / 24)
-      return `${diffInDays}d atrás`
+      return `${diffInDays}天前`
     }
   }
 
   /**
-   * Obtém informações do usuário que gerou a notificação
-   */
-  const getSourceUser = (sourceUserId?: string) => {
-    if (!sourceUserId) return null
-    return users.find(user => user.id === sourceUserId)
-  }
-
-  /**
-   * Marca uma notificação como lida e navega para a URL de ação
+   * 处理通知点击
    */
   const handleNotificationClick = (notification: Notification) => {
-    if (!notification.isRead) {
+    if (!notification.read) {
       markNotificationAsRead(notification.id)
     }
     setIsOpen(false)
   }
 
   /**
-   * Marca todas as notificações como lidas
+   * 标记所有通知为已读
    */
   const handleMarkAllAsRead = () => {
     if (currentUser) {
-      markAllNotificationsAsRead(currentUser.id)
+      unreadNotifications.forEach(notification => {
+        markNotificationAsRead(notification.id)
+      })
     }
   }
 
   if (!currentUser) {
     return null
   }
-
-  const userNotifications = notifications
-    .filter(n => n.userId === currentUser.id)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 20) // Limitar a 20 notificações
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -124,14 +116,14 @@ export default function NotificationCenter() {
               {unreadNotifications.length > 9 ? '9+' : unreadNotifications.length}
             </Badge>
           )}
-          <span className="sr-only">Notificações</span>
+          <span className="sr-only">通知</span>
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-80">
         <div className="p-3 pb-2">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold">Notificações</h3>
+            <h3 className="font-semibold">通知</h3>
             {unreadNotifications.length > 0 && (
               <Button
                 variant="ghost"
@@ -140,7 +132,7 @@ export default function NotificationCenter() {
                 className="h-auto p-1 text-xs"
               >
                 <Check className="h-3 w-3 mr-1" />
-                Marcar todas como lidas
+                全部已读
               </Button>
             )}
           </div>
@@ -152,95 +144,46 @@ export default function NotificationCenter() {
           {userNotifications.length === 0 ? (
             <div className="p-4 text-center text-muted-foreground">
               <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">Nenhuma notificação</p>
+              <p className="text-sm">暂无通知</p>
             </div>
           ) : (
             <div className="space-y-1">
-              {userNotifications.map((notification) => {
-                const sourceUser = getSourceUser(notification.sourceUserId)
-                
-                return (
-                  <DropdownMenuItem key={notification.id} className="p-0">
-                    {notification.actionUrl ? (
-                      <Link
-                        to={notification.actionUrl}
-                        className="flex items-start space-x-3 p-3 w-full hover:bg-muted/50 transition-colors"
-                        onClick={() => handleNotificationClick(notification)}
-                      >
-                        <div className="flex-shrink-0 mt-0.5">
-                          {sourceUser ? (
-                            <Avatar className="h-8 w-8">
-                              <AvatarImage src={sourceUser.avatar} />
-                              <AvatarFallback className="text-xs">
-                                {sourceUser.name.split(' ').map(n => n[0]).join('')}
-                              </AvatarFallback>
-                            </Avatar>
-                          ) : (
-                            <div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center">
-                              {getNotificationIcon(notification.type)}
-                            </div>
-                          )}
-                        </div>
-                        
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <p className={`text-sm ${!notification.isRead ? 'font-semibold' : ''}`}>
-                                {notification.title}
-                              </p>
-                              <p className="text-xs text-muted-foreground line-clamp-2">
-                                {notification.message}
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {formatNotificationDate(notification.createdAt)}
-                              </p>
-                            </div>
-                            
-                            {!notification.isRead && (
-                              <div className="flex-shrink-0 ml-2">
-                                <div className="h-2 w-2 bg-primary rounded-full"></div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </Link>
-                    ) : (
-                      <div 
-                        className="flex items-start space-x-3 p-3 w-full hover:bg-muted/50 transition-colors cursor-pointer"
-                        onClick={() => handleNotificationClick(notification)}
-                      >
-                        <div className="flex-shrink-0 mt-0.5">
-                          <div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center">
-                            {getNotificationIcon(notification.type)}
-                          </div>
-                        </div>
-                        
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <p className={`text-sm ${!notification.isRead ? 'font-semibold' : ''}`}>
-                                {notification.title}
-                              </p>
-                              <p className="text-xs text-muted-foreground line-clamp-2">
-                                {notification.message}
-                              </p>
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {formatNotificationDate(notification.createdAt)}
-                              </p>
-                            </div>
-                            
-                            {!notification.isRead && (
-                              <div className="flex-shrink-0 ml-2">
-                                <div className="h-2 w-2 bg-primary rounded-full"></div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
+              {userNotifications.map((notification) => (
+                <DropdownMenuItem key={notification.id} className="p-0">
+                  <div 
+                    className="flex items-start space-x-3 p-3 w-full hover:bg-muted/50 transition-colors cursor-pointer"
+                    onClick={() => handleNotificationClick(notification)}
+                  >
+                    <div className="flex-shrink-0 mt-0.5">
+                      <div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center">
+                        {getNotificationIcon(notification.type)}
                       </div>
-                    )}
-                  </DropdownMenuItem>
-                )
-              })}
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <p className={`text-sm ${!notification.read ? 'font-semibold' : ''}`}>
+                            {notification.title}
+                          </p>
+                          <p className="text-xs text-muted-foreground line-clamp-2">
+                            {notification.message}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {formatNotificationDate(notification.createdAt)}
+                          </p>
+                        </div>
+                        
+                        {!notification.read && (
+                          <div className="flex-shrink-0 ml-2">
+                            <div className="h-2 w-2 bg-primary rounded-full"></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </DropdownMenuItem>
+              ))}
             </div>
           )}
         </ScrollArea>
@@ -250,7 +193,7 @@ export default function NotificationCenter() {
             <DropdownMenuSeparator />
             <div className="p-2">
               <Button variant="ghost" size="sm" className="w-full justify-center">
-                Ver todas as notificações
+                查看所有通知
               </Button>
             </div>
           </>

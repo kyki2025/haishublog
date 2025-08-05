@@ -1,9 +1,9 @@
 /**
  * 完整功能的文章编辑器
- * 支持创建和编辑文章，实时预览
+ * 支持创建和编辑文章，实时预览，图片上传
  */
 import { useState, useEffect } from 'react'
-import { X, Save, Eye, Upload, Tag, Calendar, User } from 'lucide-react'
+import { X, Save, Eye, Upload, Tag, Calendar, User, Image as ImageIcon } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -22,6 +22,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { toast } from 'sonner'
 import { useBlogStore, Article } from '@/lib/store'
+import ImageUpload, { ImagePreview, InlineImageInsert } from './ImageUpload'
 
 interface ArticleEditorProps {
   articleId?: string | null
@@ -46,6 +47,7 @@ export default function ArticleEditor({ articleId, onClose }: ArticleEditorProps
   const [newTag, setNewTag] = useState('')
   const [isPreview, setIsPreview] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [showImageUpload, setShowImageUpload] = useState(false)
 
   // 加载文章进行编辑
   useEffect(() => {
@@ -116,6 +118,30 @@ export default function ArticleEditor({ articleId, onClose }: ArticleEditorProps
   }
 
   /**
+   * 处理封面图片上传
+   */
+  const handleCoverImageUpload = (imageUrl: string) => {
+    setFormData(prev => ({
+      ...prev,
+      coverImage: imageUrl
+    }))
+    toast.success('封面图片上传成功！')
+  }
+
+  /**
+   * 插入图片到内容中
+   */
+  const insertImageToContent = (imageUrl: string, alt: string = '图片') => {
+    const imageMarkdown = `\n\n![${alt}](${imageUrl})\n\n`
+    setFormData(prev => ({
+      ...prev,
+      content: prev.content + imageMarkdown
+    }))
+    setShowImageUpload(false)
+    toast.success('图片已插入到文章内容中！')
+  }
+
+  /**
    * 保存文章
    */
   const handleSave = async (status?: Article['status']) => {
@@ -138,14 +164,14 @@ export default function ArticleEditor({ articleId, onClose }: ArticleEditorProps
         slug: formData.slug.trim() || generateSlug(formData.title),
         excerpt: formData.excerpt.trim(),
         content: formData.content.trim(),
-        coverImage: formData.coverImage.trim() || undefined,
-        authorId: currentUser.id,
+        coverImage: formData.coverImage.trim() || '',
+        author: currentUser,
         category: formData.category || '生活',
         tags: formData.tags,
         featured: formData.featured,
         status: status || formData.status,
-        publishedAt: articleId ? 
-          articles.find(a => a.id === articleId)?.publishedAt || new Date().toISOString() :
+        createdAt: articleId ? 
+          articles.find(a => a.id === articleId)?.createdAt || new Date().toISOString() :
           new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         likes: articleId ? articles.find(a => a.id === articleId)?.likes || 0 : 0,
@@ -173,6 +199,22 @@ export default function ArticleEditor({ articleId, onClose }: ArticleEditorProps
    */
   const renderPreview = () => {
     return formData.content.split('\n\n').map((paragraph, index) => {
+      // 处理图片
+      if (paragraph.match(/^!\[.*\]\(.*\)$/)) {
+        const match = paragraph.match(/^!\[(.*)\]\((.*)\)$/)
+        if (match) {
+          const [, alt, src] = match
+          return (
+            <img
+              key={index}
+              src={src}
+              alt={alt}
+              className="w-full max-w-2xl mx-auto rounded-lg my-6"
+            />
+          )
+        }
+      }
+      
       if (paragraph.startsWith('## ')) {
         return (
           <h2 key={index} className="text-2xl font-bold mt-8 mb-4">
@@ -349,23 +391,38 @@ export default function ArticleEditor({ articleId, onClose }: ArticleEditorProps
               </div>
 
               {/* 封面图片 */}
-              <div className="space-y-2">
-                <Label htmlFor="coverImage">封面图片 (URL)</Label>
-                <Input
-                  id="coverImage"
-                  value={formData.coverImage}
-                  onChange={(e) => setFormData(prev => ({ ...prev, coverImage: e.target.value }))}
-                  placeholder="https://example.com/image.jpg"
-                />
+              <div className="space-y-4">
+                <Label>封面图片</Label>
+                
+                {/* URL输入 */}
+                <div className="space-y-2">
+                  <Label htmlFor="coverImage" className="text-sm">图片URL</Label>
+                  <Input
+                    id="coverImage"
+                    value={formData.coverImage}
+                    onChange={(e) => setFormData(prev => ({ ...prev, coverImage: e.target.value }))}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+
+                {/* 或者上传图片 */}
+                <div className="space-y-2">
+                  <Label className="text-sm">或上传图片</Label>
+                  <ImageUpload
+                    onImageUploaded={handleCoverImageUpload}
+                    maxSize={5}
+                  />
+                </div>
+
+                {/* 封面预览 */}
                 {formData.coverImage && (
                   <div className="mt-2">
-                    <img
+                    <Label className="text-sm">预览</Label>
+                    <ImagePreview
                       src={formData.coverImage}
                       alt="封面预览"
-                      className="w-full h-32 object-cover rounded-lg"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none'
-                      }}
+                      onRemove={() => setFormData(prev => ({ ...prev, coverImage: '' }))}
+                      className="mt-2"
                     />
                   </div>
                 )}
@@ -405,13 +462,32 @@ export default function ArticleEditor({ articleId, onClose }: ArticleEditorProps
               </div>
 
               {/* 内容 */}
-              <div className="space-y-2">
-                <Label htmlFor="content">内容 *</Label>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="content">内容 *</Label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowImageUpload(!showImageUpload)}
+                  >
+                    <ImageIcon className="h-4 w-4 mr-2" />
+                    插入图片
+                  </Button>
+                </div>
+
+                {/* 图片插入工具 */}
+                {showImageUpload && (
+                  <InlineImageInsert
+                    onInsert={insertImageToContent}
+                  />
+                )}
+
                 <Textarea
                   id="content"
                   value={formData.content}
                   onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                  placeholder="使用 Markdown 格式编写文章内容...&#10;&#10;## 章节标题&#10;&#10;正文段落...&#10;&#10;### 小标题&#10;&#10;- 列表项&#10;- 另一个列表项"
+                  placeholder="使用 Markdown 格式编写文章内容...&#10;&#10;## 章节标题&#10;&#10;正文段落...&#10;&#10;### 小标题&#10;&#10;- 列表项&#10;- 另一个列表项&#10;&#10;插入图片: ![图片描述](图片URL)"
                   rows={20}
                   className="font-mono"
                 />
